@@ -28961,6 +28961,35 @@ maybe_aggr_guide (tree tmpl, tree init, vec<tree,va_gc> *args)
 
 /* UGUIDES are the deduction guides for the underlying template of alias
    template TMPL; adjust them to be deduction guides for TMPL.  */
+static tree
+walk_r (tree *tp, int *, void *data)
+{
+    tree t = *tp;
+    hash_set<tree>* used_alias_tparams_p =
+            (hash_set<tree>*)data;
+    if(TEMPLATE_PARM_P(t))
+        used_alias_tparams_p->add (t);
+    return NULL_TREE;
+}
+
+static tree
+used_r (tree *tp, int *, void *data)
+{
+  tree t = *tp;
+  hash_set<tree>* used_alias_tparams_p =
+          (hash_set<tree>*)data;
+  if(used_alias_tparams_p->contains(t))
+    return t;
+  return NULL_TREE;
+}
+
+static bool
+used (tree t, hash_set<tree> &used_alias_tparams)
+{
+  return used_alias_tparams.contains(TREE_TYPE(t)) ||
+      TREE_CODE(t) == PARM_DECL && used_alias_tparams.contains(DECL_INITIAL(t));
+  // return cp_walk_tree(&t, used_r, &used_alias_tparams, NULL) != NULL_TREE;
+}
 
 static tree
 alias_ctad_tweaks (tree tmpl, tree uguides)
@@ -29041,25 +29070,40 @@ alias_ctad_tweaks (tree tmpl, tree uguides)
 	  int err = unify (ftparms, targs, ret, utype, UNIFY_ALLOW_NONE, false);
 	  if (err)
 	    continue;
-
+	  hash_set<tree> used_alias_tparams;
+	  cp_walk_tree(&targs, walk_r, &used_alias_tparams, NULL);
 	  /* The number of parms for f' is the number of parms for A plus
 	     non-deduced parms of f.  */
 	  unsigned ndlen = 0;
 	  unsigned j;
+	  unsigned k;
 	  for (unsigned i = 0; i < len; ++i)
 	    if (TREE_VEC_ELT (targs, i) == NULL_TREE)
 	      ++ndlen;
-	  tree gtparms = make_tree_vec (natparms + ndlen);
+	  unsigned usedatparms = 0;
+	  for (unsigned i = 0; i < natparms; ++i)
+	    {
+            tree elt = TREE_VEC_ELT(atparms, i);
+            tree value = TREE_VALUE(elt);
+            if (used(value, used_alias_tparams))
+                usedatparms++;
+	    }
+	  tree gtparms = make_tree_vec (usedatparms + ndlen);
 
+	  k = 0;
 	  /* First copy over the parms of A.  */
-	  for (j = 0; j < natparms; ++j)
-	    TREE_VEC_ELT (gtparms, j) = TREE_VEC_ELT (atparms, j);
+	  for (j = 0; j < natparms; ++j) {
+	      tree elt = TREE_VEC_ELT(atparms, j);
+	      tree value = TREE_VALUE(elt);
+	      if (used(value, used_alias_tparams))
+	          TREE_VEC_ELT(gtparms, k++) = TREE_VEC_ELT(atparms, j);
+      }
 	  /* Now rewrite the non-deduced parms of f.  */
 	  for (unsigned i = 0; ndlen && i < len; ++i)
 	    if (TREE_VEC_ELT (targs, i) == NULL_TREE)
 	      {
 		--ndlen;
-		unsigned index = j++;
+		unsigned index = k++;
 		unsigned level = 1;
 		tree oldlist = TREE_VEC_ELT (ftparms, i);
 		tree list = rewrite_tparm_list (oldlist, index, level,
@@ -29081,7 +29125,7 @@ alias_ctad_tweaks (tree tmpl, tree uguides)
 	  tree gtargs = template_parms_to_args (gtparms);
 	  DECL_TEMPLATE_INFO (g) = build_template_info (fprime, gtargs);
 	  DECL_PRIMARY_TEMPLATE (fprime) = fprime;
-
+#if 0
 	  /* Substitute the associated constraints.  */
 	  tree ci = get_constraints (f);
 	  if (ci)
@@ -29105,6 +29149,7 @@ alias_ctad_tweaks (tree tmpl, tree uguides)
 	      remove_constraints (fprime);
 	      set_constraints (fprime, ci);
 	    }
+#endif
 	}
       else
 	{
