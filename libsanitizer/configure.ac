@@ -161,7 +161,8 @@ case "$target" in
   *-*-linux*)
     # Some old Linux distributions miss required syscalls.
     sanitizer_supported=no
-    AC_TRY_COMPILE([#include <sys/syscall.h>],[
+    AC_TRY_COMPILE([#include <sys/syscall.h>
+#include <unistd.h>],[
       syscall (__NR_gettid);
       syscall (__NR_futex);
       syscall (__NR_exit_group);
@@ -399,6 +400,16 @@ fi
 
 AC_SUBST([TSAN_TARGET_DEPENDENT_OBJECTS])
 AC_SUBST([SANITIZER_COMMON_TARGET_DEPENDENT_OBJECTS])
+
+AC_ARG_ENABLE([werror],
+  [AS_HELP_STRING([--disable-werror], [disable building with -Werror])])
+
+ACX_PROG_CC_WARNING_OPTS([-Wextra -Wall -Wwrite-strings \
+                          -Wmissing-format-attribute -Wcast-qual],
+                          [WARN_FLAGS])
+AS_IF([test "x$enable_werror" != "xno"],
+  [WARN_FLAGS="$WARN_FLAGS -Werror"])
+AC_SUBST([WARN_FLAGS])
 
 # Determine what GCC version number to use in filesystem paths.
 GCC_BASE_VER

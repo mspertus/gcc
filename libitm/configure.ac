@@ -1,5 +1,5 @@
 # Process this file with autoreconf to produce a configure script.
-#   Copyright (C) 2011-2021 Free Software Foundation, Inc.
+#   Copyright (C) 2011-2022 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -261,10 +261,13 @@ GCC_CHECK_ELF_STYLE_WEAKREF
 CFLAGS="$save_CFLAGS"
 AC_CACHE_SAVE
 
+AC_ARG_ENABLE([werror],
+  [AS_HELP_STRING([--disable-werror], [disable building with -Werror])])
 # Add -Wall -Werror if we are using GCC.
-if test "x$GCC" = "xyes"; then
-  XCFLAGS="$XCFLAGS -Wall -Werror"
-fi
+AS_IF([test "x$GCC" = "xyes"],
+  [XCFLAGS="$XCFLAGS -Wall"])
+AS_IF([test "x$enable_werror" != "xno" && test "x$GCC" = "xyes"],
+  [XCFLAGS="$XCFLAGS -Werror"])
 
 XCFLAGS="$XCFLAGS $XPCFLAGS"
 
@@ -297,6 +300,44 @@ AM_CONDITIONAL([ARCH_ARM], [test "$ARCH" = arm])
 AM_CONDITIONAL([ARCH_X86], [test "$ARCH" = x86])
 AM_CONDITIONAL([ARCH_X86_AVX], [test "$libitm_cv_as_avx" = yes])
 AM_CONDITIONAL([ARCH_FUTEX], [test $enable_linux_futex = yes])
+
+AC_ARG_WITH(sphinx-build,
+  [AS_HELP_STRING([--with-sphinx-build=],
+                  [Use sphinx-build from a given path])],
+  [CONFIGURE_SPHINX_BUILD=$withval],
+  [CONFIGURE_SPHINX_BUILD=]
+)
+AC_SUBST(CONFIGURE_SPHINX_BUILD)
+
+# See if sphinx-build has been installed and is modern enough
+# that we can use it.
+AC_MSG_CHECKING([for sphinx-build])
+sphinx=sphinx-build
+if test x${CONFIGURE_SPHINX_BUILD} != x ; then
+  sphinx=${CONFIGURE_SPHINX_BUILD}
+fi
+
+tempdir=build.$$
+source=source.$$
+mkdir $source
+grep 'needs_sphinx =' ${srcdir}/../doc/baseconf.py > $source/conf.py
+touch $source/index.rst
+if ${sphinx} $source $tempdir >/dev/null 2>&1; then
+  SPHINX_BUILD=${sphinx}
+  HAS_SPHINX_BUILD=has-sphinx-build
+  AC_MSG_RESULT(yes)
+else
+  AC_MSG_WARN([
+  *** sphinx-build is missing or too old.
+  *** Info and man pages documentation will not be built.])
+  AC_MSG_RESULT(no)
+  SPHINX_BUILD=
+  HAS_SPHINX_BUILD=
+fi
+rm -rf $tempdir
+rm -rf $source
+AC_SUBST(SPHINX_BUILD)
+AC_SUBST(HAS_SPHINX_BUILD)
 
 # Determine what GCC version number to use in filesystem paths.
 GCC_BASE_VER

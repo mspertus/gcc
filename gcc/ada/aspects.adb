@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---          Copyright (C) 2010-2021, Free Software Foundation, Inc.         --
+--          Copyright (C) 2010-2022, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -241,6 +241,10 @@ package body Aspects is
       --  find the declaration node where the aspects reside. This is usually
       --  the parent or the parent of the parent.
 
+      if No (Parent (Owner)) then
+         return Empty;
+      end if;
+
       Decl := Parent (Owner);
       if not Permits_Aspect_Specifications (Decl) then
          Decl := Parent (Decl);
@@ -281,7 +285,9 @@ package body Aspects is
 
    begin
       if Present (Spec) then
-         if A = Aspect_Default_Iterator then
+         if A = Aspect_Default_Iterator
+           and then Present (Aspect_Rep_Item (Spec))
+         then
             return Expression (Aspect_Rep_Item (Spec));
          else
             return Expression (Spec);
@@ -318,6 +324,16 @@ package body Aspects is
    begin
       return Present (Find_Aspect (Id, A, Class_Present => Class_Present));
    end Has_Aspect;
+
+   ------------------
+   -- Is_Aspect_Id --
+   ------------------
+
+   function Is_Aspect_Id (Aspect : Name_Id) return Boolean is
+     (Get_Aspect_Id (Aspect) /= No_Aspect);
+
+   function Is_Aspect_Id (Aspect : Node_Id) return Boolean is
+     (Get_Aspect_Id (Aspect) /= No_Aspect);
 
    ------------------
    -- Move_Aspects --
@@ -357,7 +373,6 @@ package body Aspects is
          else
             Asps := New_List;
             Set_Aspect_Specifications (To, Asps);
-            Set_Has_Aspects (To);
          end if;
 
          --  Remove the aspect from its original owner and relocate it to node
@@ -488,6 +503,7 @@ package body Aspects is
 
    function Permits_Aspect_Specifications (N : Node_Id) return Boolean is
    begin
+      pragma Assert (Present (N));
       return Has_Aspect_Specifications_Flag (Nkind (N));
    end Permits_Aspect_Specifications;
 

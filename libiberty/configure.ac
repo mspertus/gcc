@@ -2,6 +2,7 @@ dnl Process this file with autoconf to produce a configure script
 
 AC_INIT
 AC_CONFIG_SRCDIR([xmalloc.c])
+AC_CONFIG_MACRO_DIRS([../config])
 
 # This works around the fact that libtool configuration may change LD
 # for this particular configuration, but some shells, instead of
@@ -18,6 +19,44 @@ AC_ARG_WITH(cross-host,
 [  --with-cross-host=HOST           Configuring with a cross compiler])
 AC_ARG_WITH(newlib,
 [  --with-newlib                    Configuring with newlib])
+
+AC_ARG_WITH(sphinx-build,
+  [AS_HELP_STRING([--with-sphinx-build=],
+                  [Use sphinx-build from a given path])],
+  [CONFIGURE_SPHINX_BUILD=$withval],
+  [CONFIGURE_SPHINX_BUILD=]
+)
+AC_SUBST(CONFIGURE_SPHINX_BUILD)
+
+# See if sphinx-build has been installed and is modern enough
+# that we can use it.
+AC_MSG_CHECKING([for sphinx-build])
+sphinx=sphinx-build
+if test x${CONFIGURE_SPHINX_BUILD} != x ; then
+  sphinx=${CONFIGURE_SPHINX_BUILD}
+fi
+
+tempdir=build.$$
+source=source.$$
+mkdir $source
+grep 'needs_sphinx =' ${srcdir}/../doc/baseconf.py > $source/conf.py
+touch $source/index.rst
+if ${sphinx} $source $tempdir >/dev/null 2>&1; then
+  SPHINX_BUILD=${sphinx}
+  HAS_SPHINX_BUILD=has-sphinx-build
+  AC_MSG_RESULT(yes)
+else
+  AC_MSG_WARN([
+  *** sphinx-build is missing or too old.
+  *** Info and man pages documentation will not be built.])
+  AC_MSG_RESULT(no)
+  SPHINX_BUILD=
+  HAS_SPHINX_BUILD=
+fi
+rm -rf $tempdir
+rm -rf $source
+AC_SUBST(SPHINX_BUILD)
+AC_SUBST(HAS_SPHINX_BUILD)
 
 if test "${srcdir}" = "."; then
   if test -n "${with_build_subdir}"; then
@@ -60,6 +99,11 @@ else
 fi
 AC_SUBST(MAINT)dnl
 AC_SUBST(NOTMAINT)dnl
+
+if test -z "$ETAGS"; then
+  ETAGS=etags
+fi
+AC_SUBST([ETAGS])
 
 # Do we have a single-tree copy of texinfo?  Even if we do, we can't
 # rely on it - libiberty is built before texinfo.
@@ -395,8 +439,15 @@ vars="sys_errlist sys_nerr sys_siglist"
 
 checkfuncs="__fsetlocking canonicalize_file_name dup3 getrlimit getrusage \
  getsysinfo gettimeofday on_exit pipe2 psignal pstat_getdynamic pstat_getstatic \
- realpath setrlimit sbrk spawnve spawnvpe strerror strsignal sysconf sysctl \
+ realpath setrlimit spawnve spawnvpe strerror strsignal sysconf sysctl \
  sysmp table times wait3 wait4"
+
+# Darwin has sbrk, but it is deprecated and that produces build-time warnings
+# so do not check for it.
+case "${host}" in
+  *-*-darwin*) ;;
+  *) checkfuncs="$checkfuncs sbrk"
+esac
 
 # These are neither executed nor required, but they help keep
 # autoheader happy without adding a bunch of text to acconfig.h.
@@ -695,7 +746,11 @@ if test -z "${setobjs}"; then
 
   AC_CHECK_FUNCS($checkfuncs)
   AC_CHECK_DECLS([basename(char *), ffs, asprintf, vasprintf, snprintf, vsnprintf])
-  AC_CHECK_DECLS([calloc, getenv, getopt, malloc, realloc, sbrk])
+  AC_CHECK_DECLS([calloc, getenv, getopt, malloc, realloc])
+  case "${host}" in
+      *-*-darwin*) ;; # Darwin's sbrk implementation is deprecated.
+      *) AC_CHECK_DECLS([sbrk]);;
+  esac
   AC_CHECK_DECLS([strtol, strtoul, strtoll, strtoull])
   AC_CHECK_DECLS([strverscmp])
   AC_CHECK_DECLS([strnlen])

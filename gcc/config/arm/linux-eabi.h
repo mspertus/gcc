@@ -1,5 +1,5 @@
 /* Configuration file for ARM GNU/Linux EABI targets.
-   Copyright (C) 2004-2021 Free Software Foundation, Inc.
+   Copyright (C) 2004-2022 Free Software Foundation, Inc.
    Contributed by CodeSourcery, LLC   
 
    This file is part of GCC.
@@ -29,9 +29,6 @@
       ANDROID_TARGET_OS_CPP_BUILTINS();		\
     }						\
   while (false)
-
-#define EXTRA_TARGET_D_OS_VERSIONS()		\
-  ANDROID_TARGET_D_OS_VERSIONS();
 
 /* We default to a soft-float ABI so that binaries can run on all
    target hardware.  If you override this to use the hard-float ABI then

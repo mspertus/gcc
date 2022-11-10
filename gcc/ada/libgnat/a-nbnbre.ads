@@ -15,11 +15,13 @@
 
 with Ada.Numerics.Big_Numbers.Big_Integers;
 
-with Ada.Strings.Text_Output; use Ada.Strings.Text_Output;
+with Ada.Strings.Text_Buffers; use Ada.Strings.Text_Buffers;
 
 package Ada.Numerics.Big_Numbers.Big_Reals
   with Preelaborate
 is
+   pragma Annotate (GNATprove, Always_Return, Big_Reals);
+
    type Big_Real is private with
      Real_Literal => From_Universal_Image,
      Put_Image    => Put_Image;
@@ -138,7 +140,7 @@ is
    function From_Quotient_String (Arg : String) return Valid_Big_Real
      with Global => null;
 
-   procedure Put_Image (S : in out Sink'Class; V : Big_Real);
+   procedure Put_Image (S : in out Root_Buffer_Type'Class; V : Big_Real);
 
    function "+" (L : Valid_Big_Real) return Valid_Big_Real
      with Global => null;

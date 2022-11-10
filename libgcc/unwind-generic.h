@@ -1,5 +1,5 @@
 /* Exception handling and frame unwind runtime interface routines.
-   Copyright (C) 2001-2021 Free Software Foundation, Inc.
+   Copyright (C) 2001-2022 Free Software Foundation, Inc.
 
    This file is part of GCC.
 
@@ -292,6 +292,6 @@ EXCEPTION_DISPOSITION _GCC_specific_handler (PEXCEPTION_RECORD, void *,
 #define _Unwind_Frames_Extra(frames)
 
 /* Increment frame count.  */
-#define _Unwind_Frames_Increment(context, frames) frames++
+#define _Unwind_Frames_Increment(exc, context, frames) frames++
 
 #endif /* unwind.h */

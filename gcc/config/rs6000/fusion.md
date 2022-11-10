@@ -1,6 +1,6 @@
 ;; Generated automatically by genfusion.pl
 
-;; Copyright (C) 2020,2021 Free Software Foundation, Inc.
+;; Copyright (C) 2020-2022 Free Software Foundation, Inc.
 ;;
 ;; This file is part of GCC.
 ;;
@@ -25,7 +25,7 @@
         (compare:CC (match_operand:DI 1 "ds_form_mem_operand" "m")
                     (match_operand:DI 3 "const_m1_to_1_operand" "n")))
    (clobber (match_scratch:DI 0 "=r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "ld%X1 %0,%1\;cmpdi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -46,7 +46,7 @@
         (compare:CCUNS (match_operand:DI 1 "ds_form_mem_operand" "m")
                        (match_operand:DI 3 "const_0_to_1_operand" "n")))
    (clobber (match_scratch:DI 0 "=r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "ld%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -67,7 +67,7 @@
         (compare:CC (match_operand:DI 1 "ds_form_mem_operand" "m")
                     (match_operand:DI 3 "const_m1_to_1_operand" "n")))
    (set (match_operand:DI 0 "gpc_reg_operand" "=r") (match_dup 1))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "ld%X1 %0,%1\;cmpdi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -88,7 +88,7 @@
         (compare:CCUNS (match_operand:DI 1 "ds_form_mem_operand" "m")
                        (match_operand:DI 3 "const_0_to_1_operand" "n")))
    (set (match_operand:DI 0 "gpc_reg_operand" "=r") (match_dup 1))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "ld%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -109,7 +109,7 @@
         (compare:CC (match_operand:SI 1 "ds_form_mem_operand" "m")
                     (match_operand:SI 3 "const_m1_to_1_operand" "n")))
    (clobber (match_scratch:SI 0 "=r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lwa%X1 %0,%1\;cmpdi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -130,7 +130,7 @@
         (compare:CCUNS (match_operand:SI 1 "non_update_memory_operand" "m")
                        (match_operand:SI 3 "const_0_to_1_operand" "n")))
    (clobber (match_scratch:SI 0 "=r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lwz%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -151,7 +151,7 @@
         (compare:CC (match_operand:SI 1 "ds_form_mem_operand" "m")
                     (match_operand:SI 3 "const_m1_to_1_operand" "n")))
    (set (match_operand:SI 0 "gpc_reg_operand" "=r") (match_dup 1))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lwa%X1 %0,%1\;cmpdi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -172,7 +172,7 @@
         (compare:CCUNS (match_operand:SI 1 "non_update_memory_operand" "m")
                        (match_operand:SI 3 "const_0_to_1_operand" "n")))
    (set (match_operand:SI 0 "gpc_reg_operand" "=r") (match_dup 1))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lwz%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -193,7 +193,7 @@
         (compare:CC (match_operand:SI 1 "ds_form_mem_operand" "m")
                     (match_operand:SI 3 "const_m1_to_1_operand" "n")))
    (set (match_operand:EXTSI 0 "gpc_reg_operand" "=r") (sign_extend:EXTSI (match_dup 1)))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lwa%X1 %0,%1\;cmpdi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -214,7 +214,7 @@
         (compare:CCUNS (match_operand:SI 1 "non_update_memory_operand" "m")
                        (match_operand:SI 3 "const_0_to_1_operand" "n")))
    (set (match_operand:EXTSI 0 "gpc_reg_operand" "=r") (zero_extend:EXTSI (match_dup 1)))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lwz%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -235,7 +235,7 @@
         (compare:CC (match_operand:HI 1 "non_update_memory_operand" "m")
                     (match_operand:HI 3 "const_m1_to_1_operand" "n")))
    (clobber (match_scratch:GPR 0 "=r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lha%X1 %0,%1\;cmpdi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -256,7 +256,7 @@
         (compare:CCUNS (match_operand:HI 1 "non_update_memory_operand" "m")
                        (match_operand:HI 3 "const_0_to_1_operand" "n")))
    (clobber (match_scratch:GPR 0 "=r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lhz%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -277,7 +277,7 @@
         (compare:CC (match_operand:HI 1 "non_update_memory_operand" "m")
                     (match_operand:HI 3 "const_m1_to_1_operand" "n")))
    (set (match_operand:EXTHI 0 "gpc_reg_operand" "=r") (sign_extend:EXTHI (match_dup 1)))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lha%X1 %0,%1\;cmpdi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -298,7 +298,7 @@
         (compare:CCUNS (match_operand:HI 1 "non_update_memory_operand" "m")
                        (match_operand:HI 3 "const_0_to_1_operand" "n")))
    (set (match_operand:EXTHI 0 "gpc_reg_operand" "=r") (zero_extend:EXTHI (match_dup 1)))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lhz%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -319,7 +319,7 @@
         (compare:CCUNS (match_operand:QI 1 "non_update_memory_operand" "m")
                        (match_operand:QI 3 "const_0_to_1_operand" "n")))
    (clobber (match_scratch:GPR 0 "=r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lbz%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -340,7 +340,7 @@
         (compare:CCUNS (match_operand:QI 1 "non_update_memory_operand" "m")
                        (match_operand:QI 3 "const_0_to_1_operand" "n")))
    (set (match_operand:GPR 0 "gpc_reg_operand" "=r") (zero_extend:GPR (match_dup 1)))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LD_CMPI)"
+  "(TARGET_P10_FUSION)"
   "lbz%X1 %0,%1\;cmpldi %2,%0,%3"
   "&& reload_completed
    && (cc_reg_not_cr0_operand (operands[2], CCmode)
@@ -358,12 +358,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> and
 (define_insn "*fuse_and_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "%r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;and %3,%3,%2
    and %3,%1,%0\;and %3,%3,%2
@@ -376,12 +376,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> and
 (define_insn "*fuse_andc_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;and %3,%3,%2
    andc %3,%1,%0\;and %3,%3,%2
@@ -394,12 +394,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> and
 (define_insn "*fuse_eqv_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;and %3,%3,%2
    eqv %3,%1,%0\;and %3,%3,%2
@@ -412,12 +412,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> and
 (define_insn "*fuse_nand_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;and %3,%3,%2
    nand %3,%1,%0\;and %3,%3,%2
@@ -430,12 +430,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> and
 (define_insn "*fuse_nor_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;and %3,%3,%2
    nor %3,%1,%0\;and %3,%3,%2
@@ -448,12 +448,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> and
 (define_insn "*fuse_or_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;and %3,%3,%2
    or %3,%1,%0\;and %3,%3,%2
@@ -466,12 +466,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> and
 (define_insn "*fuse_orc_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;and %3,%3,%2
    orc %3,%1,%0\;and %3,%3,%2
@@ -484,12 +484,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> and
 (define_insn "*fuse_xor_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;and %3,%3,%2
    xor %3,%1,%0\;and %3,%3,%2
@@ -502,12 +502,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar add -> and
 (define_insn "*fuse_add_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (plus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    add %3,%1,%0\;and %3,%3,%2
    add %3,%1,%0\;and %3,%3,%2
@@ -520,12 +520,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar subf -> and
 (define_insn "*fuse_subf_and"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (minus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    subf %3,%1,%0\;and %3,%3,%2
    subf %3,%1,%0\;and %3,%3,%2
@@ -538,12 +538,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> andc
 (define_insn "*fuse_and_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;andc %3,%3,%2
    and %3,%1,%0\;andc %3,%3,%2
@@ -556,12 +556,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> andc
 (define_insn "*fuse_andc_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;andc %3,%3,%2
    andc %3,%1,%0\;andc %3,%3,%2
@@ -574,12 +574,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> andc
 (define_insn "*fuse_eqv_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;andc %3,%3,%2
    eqv %3,%1,%0\;andc %3,%3,%2
@@ -592,12 +592,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> andc
 (define_insn "*fuse_nand_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;andc %3,%3,%2
    nand %3,%1,%0\;andc %3,%3,%2
@@ -610,12 +610,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> andc
 (define_insn "*fuse_nor_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;andc %3,%3,%2
    nor %3,%1,%0\;andc %3,%3,%2
@@ -628,12 +628,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> andc
 (define_insn "*fuse_or_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;andc %3,%3,%2
    or %3,%1,%0\;andc %3,%3,%2
@@ -646,12 +646,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> andc
 (define_insn "*fuse_orc_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;andc %3,%3,%2
    orc %3,%1,%0\;andc %3,%3,%2
@@ -664,12 +664,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> andc
 (define_insn "*fuse_xor_andc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;andc %3,%3,%2
    xor %3,%1,%0\;andc %3,%3,%2
@@ -682,12 +682,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> eqv
 (define_insn "*fuse_and_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;eqv %3,%3,%2
    and %3,%1,%0\;eqv %3,%3,%2
@@ -700,12 +700,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> eqv
 (define_insn "*fuse_andc_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;eqv %3,%3,%2
    andc %3,%1,%0\;eqv %3,%3,%2
@@ -718,12 +718,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> eqv
 (define_insn "*fuse_eqv_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "%r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;eqv %3,%3,%2
    eqv %3,%1,%0\;eqv %3,%3,%2
@@ -736,12 +736,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> eqv
 (define_insn "*fuse_nand_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;eqv %3,%3,%2
    nand %3,%1,%0\;eqv %3,%3,%2
@@ -754,12 +754,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> eqv
 (define_insn "*fuse_nor_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;eqv %3,%3,%2
    nor %3,%1,%0\;eqv %3,%3,%2
@@ -772,12 +772,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> eqv
 (define_insn "*fuse_or_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;eqv %3,%3,%2
    or %3,%1,%0\;eqv %3,%3,%2
@@ -790,12 +790,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> eqv
 (define_insn "*fuse_orc_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;eqv %3,%3,%2
    orc %3,%1,%0\;eqv %3,%3,%2
@@ -808,12 +808,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> eqv
 (define_insn "*fuse_xor_eqv"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (not:GPR (xor:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;eqv %3,%3,%2
    xor %3,%1,%0\;eqv %3,%3,%2
@@ -826,12 +826,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> nand
 (define_insn "*fuse_and_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;nand %3,%3,%2
    and %3,%1,%0\;nand %3,%3,%2
@@ -844,12 +844,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> nand
 (define_insn "*fuse_andc_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;nand %3,%3,%2
    andc %3,%1,%0\;nand %3,%3,%2
@@ -862,12 +862,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> nand
 (define_insn "*fuse_eqv_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;nand %3,%3,%2
    eqv %3,%1,%0\;nand %3,%3,%2
@@ -880,12 +880,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> nand
 (define_insn "*fuse_nand_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;nand %3,%3,%2
    nand %3,%1,%0\;nand %3,%3,%2
@@ -898,12 +898,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> nand
 (define_insn "*fuse_nor_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;nand %3,%3,%2
    nor %3,%1,%0\;nand %3,%3,%2
@@ -916,12 +916,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> nand
 (define_insn "*fuse_or_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;nand %3,%3,%2
    or %3,%1,%0\;nand %3,%3,%2
@@ -934,12 +934,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> nand
 (define_insn "*fuse_orc_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;nand %3,%3,%2
    orc %3,%1,%0\;nand %3,%3,%2
@@ -952,12 +952,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> nand
 (define_insn "*fuse_xor_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;nand %3,%3,%2
    xor %3,%1,%0\;nand %3,%3,%2
@@ -970,12 +970,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar add -> nand
 (define_insn "*fuse_add_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (plus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    add %3,%1,%0\;nand %3,%3,%2
    add %3,%1,%0\;nand %3,%3,%2
@@ -988,12 +988,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar subf -> nand
 (define_insn "*fuse_subf_nand"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (minus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    subf %3,%1,%0\;nand %3,%3,%2
    subf %3,%1,%0\;nand %3,%3,%2
@@ -1006,12 +1006,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> nor
 (define_insn "*fuse_and_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;nor %3,%3,%2
    and %3,%1,%0\;nor %3,%3,%2
@@ -1024,12 +1024,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> nor
 (define_insn "*fuse_andc_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;nor %3,%3,%2
    andc %3,%1,%0\;nor %3,%3,%2
@@ -1042,12 +1042,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> nor
 (define_insn "*fuse_eqv_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;nor %3,%3,%2
    eqv %3,%1,%0\;nor %3,%3,%2
@@ -1060,12 +1060,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> nor
 (define_insn "*fuse_nand_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;nor %3,%3,%2
    nand %3,%1,%0\;nor %3,%3,%2
@@ -1078,12 +1078,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> nor
 (define_insn "*fuse_nor_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;nor %3,%3,%2
    nor %3,%1,%0\;nor %3,%3,%2
@@ -1096,12 +1096,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> nor
 (define_insn "*fuse_or_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;nor %3,%3,%2
    or %3,%1,%0\;nor %3,%3,%2
@@ -1114,12 +1114,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> nor
 (define_insn "*fuse_orc_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;nor %3,%3,%2
    orc %3,%1,%0\;nor %3,%3,%2
@@ -1132,12 +1132,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> nor
 (define_insn "*fuse_xor_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;nor %3,%3,%2
    xor %3,%1,%0\;nor %3,%3,%2
@@ -1150,12 +1150,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar add -> nor
 (define_insn "*fuse_add_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (plus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    add %3,%1,%0\;nor %3,%3,%2
    add %3,%1,%0\;nor %3,%3,%2
@@ -1168,12 +1168,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar subf -> nor
 (define_insn "*fuse_subf_nor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (and:GPR (not:GPR (minus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    subf %3,%1,%0\;nor %3,%3,%2
    subf %3,%1,%0\;nor %3,%3,%2
@@ -1186,12 +1186,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> or
 (define_insn "*fuse_and_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;or %3,%3,%2
    and %3,%1,%0\;or %3,%3,%2
@@ -1204,12 +1204,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> or
 (define_insn "*fuse_andc_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;or %3,%3,%2
    andc %3,%1,%0\;or %3,%3,%2
@@ -1222,12 +1222,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> or
 (define_insn "*fuse_eqv_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;or %3,%3,%2
    eqv %3,%1,%0\;or %3,%3,%2
@@ -1240,12 +1240,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> or
 (define_insn "*fuse_nand_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;or %3,%3,%2
    nand %3,%1,%0\;or %3,%3,%2
@@ -1258,12 +1258,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> or
 (define_insn "*fuse_nor_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;or %3,%3,%2
    nor %3,%1,%0\;or %3,%3,%2
@@ -1276,12 +1276,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> or
 (define_insn "*fuse_or_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "%r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;or %3,%3,%2
    or %3,%1,%0\;or %3,%3,%2
@@ -1294,12 +1294,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> or
 (define_insn "*fuse_orc_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;or %3,%3,%2
    orc %3,%1,%0\;or %3,%3,%2
@@ -1312,12 +1312,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> or
 (define_insn "*fuse_xor_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;or %3,%3,%2
    xor %3,%1,%0\;or %3,%3,%2
@@ -1330,12 +1330,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar add -> or
 (define_insn "*fuse_add_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (plus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    add %3,%1,%0\;or %3,%3,%2
    add %3,%1,%0\;or %3,%3,%2
@@ -1348,12 +1348,12 @@
 ;; add-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar subf -> or
 (define_insn "*fuse_subf_or"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (minus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_ADDLOG)"
+  "(TARGET_P10_FUSION)"
   "@
    subf %3,%1,%0\;or %3,%3,%2
    subf %3,%1,%0\;or %3,%3,%2
@@ -1366,12 +1366,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> orc
 (define_insn "*fuse_and_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;orc %3,%3,%2
    and %3,%1,%0\;orc %3,%3,%2
@@ -1384,12 +1384,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> orc
 (define_insn "*fuse_andc_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;orc %3,%3,%2
    andc %3,%1,%0\;orc %3,%3,%2
@@ -1402,12 +1402,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> orc
 (define_insn "*fuse_eqv_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;orc %3,%3,%2
    eqv %3,%1,%0\;orc %3,%3,%2
@@ -1420,12 +1420,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> orc
 (define_insn "*fuse_nand_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;orc %3,%3,%2
    nand %3,%1,%0\;orc %3,%3,%2
@@ -1438,12 +1438,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> orc
 (define_insn "*fuse_nor_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;orc %3,%3,%2
    nor %3,%1,%0\;orc %3,%3,%2
@@ -1456,12 +1456,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> orc
 (define_insn "*fuse_or_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;orc %3,%3,%2
    or %3,%1,%0\;orc %3,%3,%2
@@ -1474,12 +1474,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> orc
 (define_insn "*fuse_orc_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;orc %3,%3,%2
    orc %3,%1,%0\;orc %3,%3,%2
@@ -1492,12 +1492,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> orc
 (define_insn "*fuse_xor_orc"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (ior:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (not:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;orc %3,%3,%2
    xor %3,%1,%0\;orc %3,%3,%2
@@ -1510,12 +1510,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> xor
 (define_insn "*fuse_and_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;xor %3,%3,%2
    and %3,%1,%0\;xor %3,%3,%2
@@ -1528,12 +1528,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar andc -> xor
 (define_insn "*fuse_andc_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    andc %3,%1,%0\;xor %3,%3,%2
    andc %3,%1,%0\;xor %3,%3,%2
@@ -1546,12 +1546,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar eqv -> xor
 (define_insn "*fuse_eqv_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (not:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    eqv %3,%1,%0\;xor %3,%3,%2
    eqv %3,%1,%0\;xor %3,%3,%2
@@ -1564,12 +1564,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> xor
 (define_insn "*fuse_nand_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;xor %3,%3,%2
    nand %3,%1,%0\;xor %3,%3,%2
@@ -1582,12 +1582,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> xor
 (define_insn "*fuse_nor_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;xor %3,%3,%2
    nor %3,%1,%0\;xor %3,%3,%2
@@ -1600,12 +1600,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> xor
 (define_insn "*fuse_or_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;xor %3,%3,%2
    or %3,%1,%0\;xor %3,%3,%2
@@ -1618,12 +1618,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar orc -> xor
 (define_insn "*fuse_orc_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    orc %3,%1,%0\;xor %3,%3,%2
    orc %3,%1,%0\;xor %3,%3,%2
@@ -1636,12 +1636,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; scalar xor -> xor
 (define_insn "*fuse_xor_xor"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (xor:GPR (xor:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "%r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+  "(TARGET_P10_FUSION)"
   "@
    xor %3,%1,%0\;xor %3,%3,%2
    xor %3,%1,%0\;xor %3,%3,%2
@@ -1654,12 +1654,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> add
 (define_insn "*fuse_and_add"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (plus:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;add %3,%3,%2
    and %3,%1,%0\;add %3,%3,%2
@@ -1672,12 +1672,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> add
 (define_insn "*fuse_nand_add"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (plus:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;add %3,%3,%2
    nand %3,%1,%0\;add %3,%3,%2
@@ -1690,12 +1690,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> add
 (define_insn "*fuse_nor_add"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (plus:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;add %3,%3,%2
    nor %3,%1,%0\;add %3,%3,%2
@@ -1708,12 +1708,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> add
 (define_insn "*fuse_or_add"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (plus:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;add %3,%3,%2
    or %3,%1,%0\;add %3,%3,%2
@@ -1726,12 +1726,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> subf
 (define_insn "*fuse_and_subf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;subf %3,%2,%3
    and %3,%1,%0\;subf %3,%2,%3
@@ -1744,12 +1744,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> subf
 (define_insn "*fuse_nand_subf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;subf %3,%2,%3
    nand %3,%1,%0\;subf %3,%2,%3
@@ -1762,12 +1762,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> subf
 (define_insn "*fuse_nor_subf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;subf %3,%2,%3
    nor %3,%1,%0\;subf %3,%2,%3
@@ -1780,12 +1780,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> subf
 (define_insn "*fuse_or_subf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))
                  (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;subf %3,%2,%3
    or %3,%1,%0\;subf %3,%2,%3
@@ -1798,12 +1798,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar and -> rsubf
 (define_insn "*fuse_and_rsubf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")
                  (and:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    and %3,%1,%0\;subf %3,%3,%2
    and %3,%1,%0\;subf %3,%3,%2
@@ -1816,12 +1816,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar nand -> rsubf
 (define_insn "*fuse_nand_rsubf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")
                  (ior:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    nand %3,%1,%0\;subf %3,%3,%2
    nand %3,%1,%0\;subf %3,%3,%2
@@ -1834,12 +1834,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar nor -> rsubf
 (define_insn "*fuse_nor_rsubf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")
                  (and:GPR (not:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r"))
                           (not:GPR (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r")))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    nor %3,%1,%0\;subf %3,%3,%2
    nor %3,%1,%0\;subf %3,%3,%2
@@ -1852,12 +1852,12 @@
 ;; logical-add fusion pattern generated by gen_logical_addsubf
 ;; scalar or -> rsubf
 (define_insn "*fuse_or_rsubf"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (minus:GPR (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")
                  (ior:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                           (match_operand:GPR 1 "gpc_reg_operand" "r,r,r,r"))))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_LOGADD)"
+  "(TARGET_P10_FUSION)"
   "@
    or %3,%1,%0\;subf %3,%3,%2
    or %3,%1,%0\;subf %3,%3,%2
@@ -1870,12 +1870,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> vand
 (define_insn "*fuse_vand_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "%v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;vand %3,%3,%2
    vand %3,%1,%0\;vand %3,%3,%2
@@ -1888,12 +1888,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> vand
 (define_insn "*fuse_vandc_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;vand %3,%3,%2
    vandc %3,%1,%0\;vand %3,%3,%2
@@ -1906,12 +1906,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> vand
 (define_insn "*fuse_veqv_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;vand %3,%3,%2
    veqv %3,%1,%0\;vand %3,%3,%2
@@ -1924,12 +1924,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> vand
 (define_insn "*fuse_vnand_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;vand %3,%3,%2
    vnand %3,%1,%0\;vand %3,%3,%2
@@ -1942,12 +1942,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> vand
 (define_insn "*fuse_vnor_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;vand %3,%3,%2
    vnor %3,%1,%0\;vand %3,%3,%2
@@ -1960,12 +1960,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> vand
 (define_insn "*fuse_vor_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;vand %3,%3,%2
    vor %3,%1,%0\;vand %3,%3,%2
@@ -1978,12 +1978,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> vand
 (define_insn "*fuse_vorc_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;vand %3,%3,%2
    vorc %3,%1,%0\;vand %3,%3,%2
@@ -1996,12 +1996,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> vand
 (define_insn "*fuse_vxor_vand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;vand %3,%3,%2
    vxor %3,%1,%0\;vand %3,%3,%2
@@ -2014,12 +2014,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> vandc
 (define_insn "*fuse_vand_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;vandc %3,%3,%2
    vand %3,%1,%0\;vandc %3,%3,%2
@@ -2032,12 +2032,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> vandc
 (define_insn "*fuse_vandc_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;vandc %3,%3,%2
    vandc %3,%1,%0\;vandc %3,%3,%2
@@ -2050,12 +2050,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> vandc
 (define_insn "*fuse_veqv_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;vandc %3,%3,%2
    veqv %3,%1,%0\;vandc %3,%3,%2
@@ -2068,12 +2068,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> vandc
 (define_insn "*fuse_vnand_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;vandc %3,%3,%2
    vnand %3,%1,%0\;vandc %3,%3,%2
@@ -2086,12 +2086,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> vandc
 (define_insn "*fuse_vnor_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;vandc %3,%3,%2
    vnor %3,%1,%0\;vandc %3,%3,%2
@@ -2104,12 +2104,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> vandc
 (define_insn "*fuse_vor_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;vandc %3,%3,%2
    vor %3,%1,%0\;vandc %3,%3,%2
@@ -2122,12 +2122,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> vandc
 (define_insn "*fuse_vorc_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;vandc %3,%3,%2
    vorc %3,%1,%0\;vandc %3,%3,%2
@@ -2140,12 +2140,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> vandc
 (define_insn "*fuse_vxor_vandc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;vandc %3,%3,%2
    vxor %3,%1,%0\;vandc %3,%3,%2
@@ -2158,12 +2158,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> veqv
 (define_insn "*fuse_vand_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;veqv %3,%3,%2
    vand %3,%1,%0\;veqv %3,%3,%2
@@ -2176,12 +2176,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> veqv
 (define_insn "*fuse_vandc_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;veqv %3,%3,%2
    vandc %3,%1,%0\;veqv %3,%3,%2
@@ -2194,12 +2194,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> veqv
 (define_insn "*fuse_veqv_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "%v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;veqv %3,%3,%2
    veqv %3,%1,%0\;veqv %3,%3,%2
@@ -2212,12 +2212,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> veqv
 (define_insn "*fuse_vnand_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;veqv %3,%3,%2
    vnand %3,%1,%0\;veqv %3,%3,%2
@@ -2230,12 +2230,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> veqv
 (define_insn "*fuse_vnor_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;veqv %3,%3,%2
    vnor %3,%1,%0\;veqv %3,%3,%2
@@ -2248,12 +2248,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> veqv
 (define_insn "*fuse_vor_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;veqv %3,%3,%2
    vor %3,%1,%0\;veqv %3,%3,%2
@@ -2266,12 +2266,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> veqv
 (define_insn "*fuse_vorc_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;veqv %3,%3,%2
    vorc %3,%1,%0\;veqv %3,%3,%2
@@ -2284,12 +2284,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> veqv
 (define_insn "*fuse_vxor_veqv"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (not:VM (xor:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;veqv %3,%3,%2
    vxor %3,%1,%0\;veqv %3,%3,%2
@@ -2302,12 +2302,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> vnand
 (define_insn "*fuse_vand_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;vnand %3,%3,%2
    vand %3,%1,%0\;vnand %3,%3,%2
@@ -2320,12 +2320,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> vnand
 (define_insn "*fuse_vandc_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;vnand %3,%3,%2
    vandc %3,%1,%0\;vnand %3,%3,%2
@@ -2338,12 +2338,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> vnand
 (define_insn "*fuse_veqv_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;vnand %3,%3,%2
    veqv %3,%1,%0\;vnand %3,%3,%2
@@ -2356,12 +2356,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> vnand
 (define_insn "*fuse_vnand_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;vnand %3,%3,%2
    vnand %3,%1,%0\;vnand %3,%3,%2
@@ -2374,12 +2374,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> vnand
 (define_insn "*fuse_vnor_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;vnand %3,%3,%2
    vnor %3,%1,%0\;vnand %3,%3,%2
@@ -2392,12 +2392,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> vnand
 (define_insn "*fuse_vor_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;vnand %3,%3,%2
    vor %3,%1,%0\;vnand %3,%3,%2
@@ -2410,12 +2410,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> vnand
 (define_insn "*fuse_vorc_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;vnand %3,%3,%2
    vorc %3,%1,%0\;vnand %3,%3,%2
@@ -2428,12 +2428,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> vnand
 (define_insn "*fuse_vxor_vnand"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;vnand %3,%3,%2
    vxor %3,%1,%0\;vnand %3,%3,%2
@@ -2446,12 +2446,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> vnor
 (define_insn "*fuse_vand_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;vnor %3,%3,%2
    vand %3,%1,%0\;vnor %3,%3,%2
@@ -2464,12 +2464,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> vnor
 (define_insn "*fuse_vandc_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;vnor %3,%3,%2
    vandc %3,%1,%0\;vnor %3,%3,%2
@@ -2482,12 +2482,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> vnor
 (define_insn "*fuse_veqv_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;vnor %3,%3,%2
    veqv %3,%1,%0\;vnor %3,%3,%2
@@ -2500,12 +2500,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> vnor
 (define_insn "*fuse_vnand_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;vnor %3,%3,%2
    vnand %3,%1,%0\;vnor %3,%3,%2
@@ -2518,12 +2518,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> vnor
 (define_insn "*fuse_vnor_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;vnor %3,%3,%2
    vnor %3,%1,%0\;vnor %3,%3,%2
@@ -2536,12 +2536,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> vnor
 (define_insn "*fuse_vor_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;vnor %3,%3,%2
    vor %3,%1,%0\;vnor %3,%3,%2
@@ -2554,12 +2554,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> vnor
 (define_insn "*fuse_vorc_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;vnor %3,%3,%2
    vorc %3,%1,%0\;vnor %3,%3,%2
@@ -2572,12 +2572,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> vnor
 (define_insn "*fuse_vxor_vnor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (and:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;vnor %3,%3,%2
    vxor %3,%1,%0\;vnor %3,%3,%2
@@ -2590,12 +2590,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> vor
 (define_insn "*fuse_vand_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;vor %3,%3,%2
    vand %3,%1,%0\;vor %3,%3,%2
@@ -2608,12 +2608,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> vor
 (define_insn "*fuse_vandc_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;vor %3,%3,%2
    vandc %3,%1,%0\;vor %3,%3,%2
@@ -2626,12 +2626,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> vor
 (define_insn "*fuse_veqv_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;vor %3,%3,%2
    veqv %3,%1,%0\;vor %3,%3,%2
@@ -2644,12 +2644,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> vor
 (define_insn "*fuse_vnand_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;vor %3,%3,%2
    vnand %3,%1,%0\;vor %3,%3,%2
@@ -2662,12 +2662,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> vor
 (define_insn "*fuse_vnor_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;vor %3,%3,%2
    vnor %3,%1,%0\;vor %3,%3,%2
@@ -2680,12 +2680,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> vor
 (define_insn "*fuse_vor_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "%v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;vor %3,%3,%2
    vor %3,%1,%0\;vor %3,%3,%2
@@ -2698,12 +2698,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> vor
 (define_insn "*fuse_vorc_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;vor %3,%3,%2
    vorc %3,%1,%0\;vor %3,%3,%2
@@ -2716,12 +2716,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> vor
 (define_insn "*fuse_vxor_vor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;vor %3,%3,%2
    vxor %3,%1,%0\;vor %3,%3,%2
@@ -2734,12 +2734,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> vorc
 (define_insn "*fuse_vand_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;vorc %3,%3,%2
    vand %3,%1,%0\;vorc %3,%3,%2
@@ -2752,12 +2752,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> vorc
 (define_insn "*fuse_vandc_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;vorc %3,%3,%2
    vandc %3,%1,%0\;vorc %3,%3,%2
@@ -2770,12 +2770,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> vorc
 (define_insn "*fuse_veqv_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;vorc %3,%3,%2
    veqv %3,%1,%0\;vorc %3,%3,%2
@@ -2788,12 +2788,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> vorc
 (define_insn "*fuse_vnand_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;vorc %3,%3,%2
    vnand %3,%1,%0\;vorc %3,%3,%2
@@ -2806,12 +2806,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> vorc
 (define_insn "*fuse_vnor_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;vorc %3,%3,%2
    vnor %3,%1,%0\;vorc %3,%3,%2
@@ -2824,12 +2824,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> vorc
 (define_insn "*fuse_vor_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;vorc %3,%3,%2
    vor %3,%1,%0\;vorc %3,%3,%2
@@ -2842,12 +2842,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> vorc
 (define_insn "*fuse_vorc_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;vorc %3,%3,%2
    vorc %3,%1,%0\;vorc %3,%3,%2
@@ -2860,12 +2860,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> vorc
 (define_insn "*fuse_vxor_vorc"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (ior:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (not:VM (match_operand:VM 2 "altivec_register_operand" "v,v,v,v"))))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;vorc %3,%3,%2
    vxor %3,%1,%0\;vorc %3,%3,%2
@@ -2878,12 +2878,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vand -> vxor
 (define_insn "*fuse_vand_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (and:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vand %3,%1,%0\;vxor %3,%3,%2
    vand %3,%1,%0\;vxor %3,%3,%2
@@ -2896,12 +2896,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vandc -> vxor
 (define_insn "*fuse_vandc_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vandc %3,%1,%0\;vxor %3,%3,%2
    vandc %3,%1,%0\;vxor %3,%3,%2
@@ -2914,12 +2914,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector veqv -> vxor
 (define_insn "*fuse_veqv_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (not:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    veqv %3,%1,%0\;vxor %3,%3,%2
    veqv %3,%1,%0\;vxor %3,%3,%2
@@ -2932,12 +2932,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnand -> vxor
 (define_insn "*fuse_vnand_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnand %3,%1,%0\;vxor %3,%3,%2
    vnand %3,%1,%0\;vxor %3,%3,%2
@@ -2950,12 +2950,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vnor -> vxor
 (define_insn "*fuse_vnor_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (and:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (not:VM (match_operand:VM 1 "altivec_register_operand" "v,v,v,v")))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vnor %3,%1,%0\;vxor %3,%3,%2
    vnor %3,%1,%0\;vxor %3,%3,%2
@@ -2968,12 +2968,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vor -> vxor
 (define_insn "*fuse_vor_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (ior:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vor %3,%1,%0\;vxor %3,%3,%2
    vor %3,%1,%0\;vxor %3,%3,%2
@@ -2986,12 +2986,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vorc -> vxor
 (define_insn "*fuse_vorc_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (ior:VM (not:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v"))
                           (match_operand:VM 1 "altivec_register_operand" "v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vorc %3,%1,%0\;vxor %3,%3,%2
    vorc %3,%1,%0\;vxor %3,%3,%2
@@ -3004,12 +3004,12 @@
 ;; logical-logical fusion pattern generated by gen_logical_addsubf
 ;; vector vxor -> vxor
 (define_insn "*fuse_vxor_vxor"
-  [(set (match_operand:VM 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:VM 3 "altivec_register_operand" "=&0,&1,&v,v")
         (xor:VM (xor:VM (match_operand:VM 0 "altivec_register_operand" "v,v,v,v")
                           (match_operand:VM 1 "altivec_register_operand" "%v,v,v,v"))
                  (match_operand:VM 2 "altivec_register_operand" "v,v,v,v")))
-   (clobber (match_scratch:VM 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2LOGICAL)"
+   (clobber (match_scratch:VM 4 "=X,X,X,&v"))]
+  "(TARGET_P10_FUSION)"
   "@
    vxor %3,%1,%0\;vxor %3,%3,%2
    vxor %3,%1,%0\;vxor %3,%3,%2
@@ -3021,13 +3021,13 @@
 
 ;; add-add fusion pattern generated by gen_addadd
 (define_insn "*fuse_add_add"
-  [(set (match_operand:GPR 3 "gpc_reg_operand" "=0,1,&r,r")
+  [(set (match_operand:GPR 3 "gpc_reg_operand" "=&0,&1,&r,r")
         (plus:GPR
            (plus:GPR (match_operand:GPR 0 "gpc_reg_operand" "r,r,r,r")
                      (match_operand:GPR 1 "gpc_reg_operand" "%r,r,r,r"))
            (match_operand:GPR 2 "gpc_reg_operand" "r,r,r,r")))
    (clobber (match_scratch:GPR 4 "=X,X,X,&r"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2ADD)"
+  "(TARGET_P10_FUSION)"
   "@
    add %3,%1,%0\;add %3,%3,%2
    add %3,%1,%0\;add %3,%3,%2
@@ -3039,13 +3039,13 @@
 
 ;; vaddudm-vaddudm fusion pattern generated by gen_addadd
 (define_insn "*fuse_vaddudm_vaddudm"
-  [(set (match_operand:V2DI 3 "altivec_register_operand" "=0,1,&v,v")
+  [(set (match_operand:V2DI 3 "altivec_register_operand" "=&0,&1,&v,v")
         (plus:V2DI
            (plus:V2DI (match_operand:V2DI 0 "altivec_register_operand" "v,v,v,v")
                      (match_operand:V2DI 1 "altivec_register_operand" "%v,v,v,v"))
            (match_operand:V2DI 2 "altivec_register_operand" "v,v,v,v")))
    (clobber (match_scratch:V2DI 4 "=X,X,X,&v"))]
-  "(TARGET_P10_FUSION && TARGET_P10_FUSION_2ADD)"
+  "(TARGET_P10_FUSION)"
   "@
    vaddudm %3,%1,%0\;vaddudm %3,%3,%2
    vaddudm %3,%1,%0\;vaddudm %3,%3,%2

@@ -1,5 +1,5 @@
 # Top level -*- makefile -*- fragment for libgccjit.so.
-#   Copyright (C) 2013-2021 Free Software Foundation, Inc.
+#   Copyright (C) 2013-2022 Free Software Foundation, Inc.
 
 #This file is part of GCC.
 
@@ -53,8 +53,40 @@ jit: $(LIBGCCJIT_FILENAME) \
 
 else
 
-LIBGCCJIT_LINKER_NAME = libgccjit.so
+ifneq (,$(findstring darwin,$(host)))
 
+LIBGCCJIT_AGE = 1
+LIBGCCJIT_BASENAME = libgccjit
+
+LIBGCCJIT_SONAME = \
+  ${libdir}/$(LIBGCCJIT_BASENAME).$(LIBGCCJIT_VERSION_NUM).dylib
+LIBGCCJIT_FILENAME = $(LIBGCCJIT_BASENAME).$(LIBGCCJIT_VERSION_NUM).dylib
+LIBGCCJIT_LINKER_NAME = $(LIBGCCJIT_BASENAME).dylib
+
+# Conditionalize the use of the LD_VERSION_SCRIPT_OPTION and
+# LD_SONAME_OPTION depending if configure found them, using $(if)
+# We have to define a COMMA here, otherwise the commas in the "true"
+# result are treated as separators by the $(if).
+COMMA := ,
+LIBGCCJIT_VERSION_SCRIPT_OPTION = \
+	$(if $(LD_VERSION_SCRIPT_OPTION),\
+	  -Wl$(COMMA)$(LD_VERSION_SCRIPT_OPTION)$(COMMA)$(srcdir)/jit/libgccjit.map)
+
+LIBGCCJIT_SONAME_OPTION = \
+	$(if $(LD_SONAME_OPTION), \
+	     -Wl$(COMMA)$(LD_SONAME_OPTION)$(COMMA)$(LIBGCCJIT_SONAME))
+
+LIBGCCJIT_SONAME_SYMLINK = $(LIBGCCJIT_FILENAME)
+LIBGCCJIT_LINKER_NAME_SYMLINK = $(LIBGCCJIT_LINKER_NAME)
+
+jit: $(LIBGCCJIT_FILENAME) \
+	$(LIBGCCJIT_SYMLINK) \
+	$(LIBGCCJIT_LINKER_NAME_SYMLINK) \
+	$(FULL_DRIVER_NAME)
+
+else
+
+LIBGCCJIT_LINKER_NAME = libgccjit.so
 LIBGCCJIT_SONAME = $(LIBGCCJIT_LINKER_NAME).$(LIBGCCJIT_VERSION_NUM)
 LIBGCCJIT_FILENAME = \
   $(LIBGCCJIT_SONAME).$(LIBGCCJIT_MINOR_NUM).$(LIBGCCJIT_RELEASE_NUM)
@@ -79,6 +111,8 @@ jit: $(LIBGCCJIT_FILENAME) \
 	$(LIBGCCJIT_SYMLINK) \
 	$(LIBGCCJIT_LINKER_NAME_SYMLINK) \
 	$(FULL_DRIVER_NAME)
+
+endif
 endif
 
 jit.serial = $(LIBGCCJIT_FILENAME)
@@ -109,9 +143,24 @@ ifneq (,$(findstring mingw,$(target)))
 # Create import library
 LIBGCCJIT_EXTRA_OPTS = -Wl,--out-implib,$(LIBGCCJIT_IMPORT_LIB)
 else
+
+ifneq (,$(findstring darwin,$(host)))
+# TODO : Construct a Darwin-style symbol export file.
+LIBGCCJIT_EXTRA_OPTS = -Wl,-compatibility_version,$(LIBGCCJIT_VERSION_NUM) \
+	-Wl,-current_version,$(LIBGCCJIT_VERSION_NUM).$(LIBGCCJIT_MINOR_NUM).$(LIBGCCJIT_AGE) \
+	$(LIBGCCJIT_VERSION_SCRIPT_OPTION) \
+	$(LIBGCCJIT_SONAME_OPTION)
+else
+
 LIBGCCJIT_EXTRA_OPTS = $(LIBGCCJIT_VERSION_SCRIPT_OPTION) \
 	$(LIBGCCJIT_SONAME_OPTION)
 endif
+endif
+
+# Only link objects from $(EXTRA_GCC_OBJS) that's not already
+# included in libbackend.a ($(EXTRA_OBJS)).
+EXTRA_GCC_OBJS_EXCLUSIVE = $(foreach _obj1, $(EXTRA_GCC_OBJS), \
+	$(if $(filter $(_obj1), $(EXTRA_OBJS)),, $(_obj1)))
 
 # We avoid using $(BACKEND) from Makefile.in in order to avoid pulling
 # in main.o
@@ -119,19 +168,23 @@ $(LIBGCCJIT_FILENAME): $(jit_OBJS) \
 	libbackend.a libcommon-target.a libcommon.a \
 	$(CPPLIB) $(LIBDECNUMBER) \
 	$(LIBDEPS) $(srcdir)/jit/libgccjit.map \
-	$(EXTRA_GCC_OBJS) $(jit.prev)
+	$(EXTRA_GCC_OBJS_EXCLUSIVE) $(jit.prev)
 	@$(call LINK_PROGRESS,$(INDEX.jit),start)
 	+$(LLINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ -shared \
 	     $(jit_OBJS) libbackend.a libcommon-target.a libcommon.a \
 	     $(CPPLIB) $(LIBDECNUMBER) $(EXTRA_GCC_LIBS) $(LIBS) $(BACKENDLIBS) \
-	     $(EXTRA_GCC_OBJS) \
+	     $(EXTRA_GCC_OBJS_EXCLUSIVE) \
 	     $(LIBGCCJIT_EXTRA_OPTS)
 	@$(call LINK_PROGRESS,$(INDEX.jit),end)
 
 # Create symlinks when not building for Windows
 ifeq (,$(findstring mingw,$(target)))
+
+ifeq (,$(findstring darwin,$(host)))
+# but only one level for Darwin, version info is embedded.
 $(LIBGCCJIT_SONAME_SYMLINK): $(LIBGCCJIT_FILENAME)
 	ln -sf $(LIBGCCJIT_FILENAME) $(LIBGCCJIT_SONAME_SYMLINK)
+endif
 
 $(LIBGCCJIT_LINKER_NAME_SYMLINK): $(LIBGCCJIT_SONAME_SYMLINK)
 	ln -sf $(LIBGCCJIT_SONAME_SYMLINK) $(LIBGCCJIT_LINKER_NAME_SYMLINK)
@@ -180,39 +233,30 @@ jit.rest.encap:
 
 # These targets redirect HTML creation and installation to either
 # jit.sphinx.(install-)html or jit.texinfo.(install-)html.
-jit.html: jit.$(doc_build_sys).html
+jit.html: doc/libgccjit/html/html/index.html
 jit.install-html: jit.$(doc_build_sys).install-html
 
 # For now, use texinfo for pdf, since the sphinx latex toolchain currently
 # fails for me deep inside pdflatex (see notes below)
-jit.pdf: jit.texinfo.pdf
+jit.pdf: doc/libgccjit/pdf/latex/libgccjit.pdf
 jit.install-pdf: jit.texinfo.install-pdf
 
-# Hooks for building docs using texinfo
-JIT_TEXI_FILES = $(srcdir)/jit/docs/_build/texinfo/libgccjit.texi
+jit.info: doc/libgccjit/info/texinfo/libgccjit.info
 
-jit.info: doc/libgccjit.info
-doc/libgccjit.info: $(JIT_TEXI_FILES)
-	if test "x$(BUILD_INFO)" = xinfo; then \
-	  rm -f doc/libgccjit.info*; \
-	  $(MAKEINFO) $(MAKEINFOFLAGS) -I $(gcc_docdir) \
-		-I $(gcc_docdir)/include -o $@ $<; \
+doc/libgccjit/info/texinfo/libgccjit.info: $(SPHINX_FILES)
+	+ if [ x$(HAS_SPHINX_BUILD) = xhas-sphinx-build ]; then \
+	  make -C $(srcdir)/../doc info SOURCEDIR=$(abs_srcdir)/jit/doc/ BUILDDIR=$(objdir)/doc/libgccjit/info SPHINXBUILD=$(SPHINX_BUILD); \
 	else true; fi
 
 jit.install-info: $(DESTDIR)$(infodir)/libgccjit.info
 
-jit.dvi: doc/libgccjit.dvi
-doc/libgccjit.dvi: $(JIT_TEXI_FILES)
-	$(TEXI2DVI) -I $(abs_docdir) -I $(abs_docdir)/include -o $@ $<
+$(DESTDIR)$(infodir)/libgccjit.info: doc/libgccjit/info/texinfo/libgccjit.info installdirs
+	-if [ -f $< ]; then rm -f $@; $(INSTALL_DATA) $< $@; fi
 
-jit.texinfo.html: $(build_htmldir)/jit/index.html
+doc/libgccjit/html/html/index.html: $(SPHINX_FILES)
+	+ make -C $(srcdir)/../doc html SOURCEDIR=$(abs_srcdir)/jit/doc/ BUILDDIR=$(objdir)/doc/libgccjit/html SPHINXBUILD=$(SPHINX_BUILD)
 
-$(build_htmldir)/jit/index.html: $(srcdir)/jit/docs/_build/texinfo/libgccjit.texi
-	$(mkinstalldirs) $(@D)
-	rm -f $(@D)/*
-	$(TEXI2HTML) -I $(gcc_docdir)/include -I $(srcdir)/jit -o $(@D) $<
-
-jit.texinfo.install-html: jit.texinfo.html
+jit.texinfo.install-html: doc/libgccjit/html/html/index.html
 	@$(NORMAL_INSTALL)
 	test -z "$(htmldir)" || $(mkinstalldirs) "$(DESTDIR)$(htmldir)"
 	@for p in $(build_htmldir)/jit; do \
@@ -229,10 +273,9 @@ jit.texinfo.install-html: jit.texinfo.html
 	  fi; \
 	done
 
-jit.texinfo.pdf: doc/libgccjit.pdf
 
-doc/libgccjit.pdf: $(JIT_TEXI_FILES)
-	$(TEXI2PDF) -I $(abs_docdir) -I $(abs_docdir)/include -o $@ $<
+doc/libgccjit/pdf/latex/libgccjit.pdf: $(SPHINX_FILES)
+	+ make -C $(srcdir)/../doc latexpdf SOURCEDIR=$(abs_srcdir)/jit/doc/ BUILDDIR=$(objdir)/doc/libgccjit/pdf SPHINXBUILD=$(SPHINX_BUILD)
 
 jit.texinfo.install-pdf: doc/libgccjit.pdf
 	@$(NORMAL_INSTALL)
@@ -251,7 +294,7 @@ SPHINX_BUILD_DIR=jit/sphinx-build
 jit.sphinx.html:
 	$(mkinstalldirs) $(SPHINX_BUILD_DIR)
 	(cd $(srcdir)/jit/docs && \
-	  make html BUILDDIR=$(PWD)/$(SPHINX_BUILD_DIR) )
+	  make html BUILDDIR=$(PWD)/$(SPHINX_BUILD_DIR) ) SPHINXBUILD=$(SPHINX_BUILD)
 
 jit_htmldir=$(htmldir)/jit
 
@@ -272,7 +315,7 @@ jit.sphinx.pdf: $(SPHINX_BUILD_DIR)/latex/libgccjit.pdf
 $(SPHINX_BUILD_DIR)/latex/libgccjit.pdf:
 	$(mkinstalldirs) $(SPHINX_BUILD_DIR)
 	(cd $(srcdir)/jit/docs && \
-	  make latexpdf BUILDDIR=$(PWD)/$(SPHINX_BUILD_DIR) )
+	  make latexpdf BUILDDIR=$(PWD)/$(SPHINX_BUILD_DIR) ) SPHINXBUILD=$(SPHINX_BUILD)
 
 jit.sphinx.install-pdf: $(SPHINX_BUILD_DIR)/latex/libgccjit.pdf
 	@$(NORMAL_INSTALL)
@@ -289,7 +332,10 @@ jit.srcextra:
 
 jit.tags:
 
-jit.man:
+jit.man: doc/libgccjit/man/man/libgccjit.1
+
+doc/libgccjit/man/man/libgccjit.1: $(SPHINX_FILES)
+	+ make -C $(srcdir)/../doc man SOURCEDIR=$(abs_srcdir)/jit/doc/ BUILDDIR=$(objdir)/doc/libgccjit/man SPHINXBUILD=$(SPHINX_BUILD)
 
 jit.srcman:
 
@@ -319,6 +365,18 @@ jit.install-common: installdirs jit.install-headers
 # Install DLL file
 	$(INSTALL_PROGRAM) $(LIBGCCJIT_FILENAME) \
 	  $(DESTDIR)$(bindir)/$(LIBGCCJIT_FILENAME)
+
+else
+ifneq (,$(findstring darwin,$(host)))
+# but only one level for Darwin
+
+jit.install-common: installdirs jit.install-headers
+	$(INSTALL_PROGRAM) $(LIBGCCJIT_FILENAME) \
+	  $(DESTDIR)$(libdir)/$(LIBGCCJIT_FILENAME)
+	ln -sf \
+	  $(LIBGCCJIT_SONAME_SYMLINK)\
+	  $(DESTDIR)$(libdir)/$(LIBGCCJIT_LINKER_NAME_SYMLINK)
+
 else
 jit.install-common: installdirs jit.install-headers
 	$(INSTALL_PROGRAM) $(LIBGCCJIT_FILENAME) \
@@ -330,8 +388,12 @@ jit.install-common: installdirs jit.install-headers
 	  $(LIBGCCJIT_SONAME_SYMLINK)\
 	  $(DESTDIR)$(libdir)/$(LIBGCCJIT_LINKER_NAME_SYMLINK)
 endif
+endif
 
-jit.install-man:
+jit.install-man: $(DESTDIR)$(man1dir)/libgccjit$(man1ext)
+
+$(DESTDIR)$(man1dir)/libgccjit$(man1ext): doc/libgccjit/man/man/libgccjit.1 installdirs
+	-if [ -f $< ]; then rm -f $@; $(INSTALL_DATA) $< $@; chmod a-x $@; fi
 
 jit.install-plugin:
 

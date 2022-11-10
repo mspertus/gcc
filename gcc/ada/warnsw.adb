@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---          Copyright (C) 1999-2021, Free Software Foundation, Inc.         --
+--          Copyright (C) 1999-2022, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -23,7 +23,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Err_Vars; use Err_Vars;
 with Opt;      use Opt;
 with Output;   use Output;
 
@@ -76,9 +75,11 @@ package body Warnsw is
       Warn_On_Overlap                      := Setting;
       Warn_On_Overridden_Size              := Setting;
       Warn_On_Parameter_Order              := Setting;
+      Warn_On_Pedantic_Checks              := Setting;
       Warn_On_Questionable_Layout          := Setting;
       Warn_On_Questionable_Missing_Parens  := Setting;
       Warn_On_Record_Holes                 := Setting;
+      Warn_On_Ignored_Equality             := Setting;
       Warn_On_Component_Order              := Setting;
       Warn_On_Redundant_Constructs         := Setting;
       Warn_On_Reverse_Bit_Order            := Setting;
@@ -172,12 +173,16 @@ package body Warnsw is
         W.Warn_On_Overridden_Size;
       Warn_On_Parameter_Order              :=
         W.Warn_On_Parameter_Order;
+      Warn_On_Pedantic_Checks              :=
+        W.Warn_On_Pedantic_Checks;
       Warn_On_Questionable_Layout          :=
         W.Warn_On_Questionable_Layout;
       Warn_On_Questionable_Missing_Parens  :=
         W.Warn_On_Questionable_Missing_Parens;
       Warn_On_Record_Holes                 :=
         W.Warn_On_Record_Holes;
+      Warn_On_Ignored_Equality              :=
+        W.Warn_On_Ignored_Equality;
       Warn_On_Component_Order              :=
         W.Warn_On_Component_Order;
       Warn_On_Redundant_Constructs         :=
@@ -284,12 +289,16 @@ package body Warnsw is
         Warn_On_Overridden_Size;
       W.Warn_On_Parameter_Order              :=
         Warn_On_Parameter_Order;
+      W.Warn_On_Pedantic_Checks              :=
+        Warn_On_Pedantic_Checks;
       W.Warn_On_Questionable_Layout          :=
         Warn_On_Questionable_Layout;
       W.Warn_On_Questionable_Missing_Parens  :=
         Warn_On_Questionable_Missing_Parens;
       W.Warn_On_Record_Holes                 :=
         Warn_On_Record_Holes;
+      W.Warn_On_Ignored_Equality             :=
+        Warn_On_Ignored_Equality;
       W.Warn_On_Component_Order              :=
         Warn_On_Component_Order;
       W.Warn_On_Redundant_Constructs         :=
@@ -504,6 +513,18 @@ package body Warnsw is
 
          when 'C' =>
             Warn_On_Unknown_Compile_Time_Warning := False;
+
+         when 'p' =>
+            Warn_On_Pedantic_Checks := True;
+
+         when 'P' =>
+            Warn_On_Pedantic_Checks := False;
+
+         when 'q' =>
+            Warn_On_Ignored_Equality := True;
+
+         when 'Q' =>
+            Warn_On_Ignored_Equality := False;
 
          when 'r' =>
             Warn_On_Component_Order := True;

@@ -1,6 +1,6 @@
 /* Operating system specific defines to be used when targeting GCC for
    hosting on Windows32, using GNU tools and the Windows32 API Library.
-   Copyright (C) 1997-2021 Free Software Foundation, Inc.
+   Copyright (C) 1997-2022 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -32,6 +32,10 @@ along with GCC; see the file COPYING3.  If not see
 	 | MASK_STACK_PROBE | MASK_ALIGN_DOUBLE \
 	 | MASK_MS_BITFIELD_LAYOUT)
 
+#ifndef TARGET_USING_MCFGTHREAD
+#define TARGET_USING_MCFGTHREAD  0
+#endif
+
 /* See i386/crtdll.h for an alternative definition. _INTEGRAL_MAX_BITS
    is for compatibility with native compiler.  */
 #define EXTRA_OS_CPP_BUILTINS()					\
@@ -50,18 +54,8 @@ along with GCC; see the file COPYING3.  If not see
 	  builtin_define_std ("WIN64");				\
 	  builtin_define ("_WIN64");				\
 	}							\
-    }								\
-  while (0)
-
-#define EXTRA_TARGET_D_OS_VERSIONS()				\
-  do								\
-    {								\
-      builtin_version ("MinGW");				\
-      if (TARGET_64BIT && ix86_abi == MS_ABI)			\
-	builtin_version ("Win64");				\
-      else if (!TARGET_64BIT)					\
-	builtin_version ("Win32");				\
-      builtin_version ("CRuntime_Microsoft");			\
+      if (TARGET_USING_MCFGTHREAD)				\
+	builtin_define ("__USING_MCFGTHREAD__");		\
     }								\
   while (0)
 
@@ -148,6 +142,13 @@ along with GCC; see the file COPYING3.  If not see
   "%{!shared:%{!mdll:%{!m64:--large-address-aware}}}"
 #endif
 
+#if HAVE_LD_PE_DISABLE_DYNAMICBASE
+# define LINK_SPEC_DISABLE_DYNAMICBASE \
+  "%{!shared:%{!mdll:%{no-pie:--disable-dynamicbase}}}"
+#else
+# define LINK_SPEC_DISABLE_DYNAMICBASE ""
+#endif
+
 #define LINK_SPEC "%{mwindows:--subsystem windows} \
   %{mconsole:--subsystem console} \
   %{shared: %{mdll: %eshared and mdll are not compatible}} \
@@ -155,6 +156,7 @@ along with GCC; see the file COPYING3.  If not see
   %{static:-Bstatic} %{!static:-Bdynamic} \
   %{shared|mdll: " SUB_LINK_ENTRY " --enable-auto-image-base} \
   " LINK_SPEC_LARGE_ADDR_AWARE "\
+  " LINK_SPEC_DISABLE_DYNAMICBASE "\
   %(shared_libgcc_undefs)"
 
 /* Include in the mingw32 libraries with libgcc */
@@ -173,11 +175,16 @@ along with GCC; see the file COPYING3.  If not see
 #else
 #define SHARED_LIBGCC_SPEC " -lgcc "
 #endif
+#if TARGET_USING_MCFGTHREAD
+#define MCFGTHREAD_SPEC  " -lmcfgthread -lkernel32 -lntdll "
+#else
+#define MCFGTHREAD_SPEC  ""
+#endif
 #undef REAL_LIBGCC_SPEC
 #define REAL_LIBGCC_SPEC \
   "%{mthreads:-lmingwthrd} -lmingw32 \
    " SHARED_LIBGCC_SPEC " \
-   -lmoldname -lmingwex -lmsvcrt -lkernel32"
+   -lmoldname -lmingwex -lmsvcrt -lkernel32 " MCFGTHREAD_SPEC
 
 #undef STARTFILE_SPEC
 #define STARTFILE_SPEC "%{shared|mdll:dllcrt2%O%s} \

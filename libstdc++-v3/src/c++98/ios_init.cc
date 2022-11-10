@@ -1,6 +1,6 @@
 // Iostreams base classes -*- C++ -*-
 
-// Copyright (C) 1997-2021 Free Software Foundation, Inc.
+// Copyright (C) 1997-2022 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -74,6 +74,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   extern wostream wcerr;
   extern wostream wclog;
 #endif
+
+#include "ios_base_init.h"
 
   ios_base::Init::Init()
   {

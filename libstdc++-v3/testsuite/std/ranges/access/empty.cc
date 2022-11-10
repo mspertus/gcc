@@ -1,4 +1,4 @@
-// Copyright (C) 2019-2021 Free Software Foundation, Inc.
+// Copyright (C) 2019-2022 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -21,6 +21,8 @@
 #include <ranges>
 #include <testsuite_hooks.h>
 #include <testsuite_iterators.h>
+
+static_assert(__gnu_test::is_customization_point_object(std::ranges::empty));
 
 using std::same_as;
 
@@ -89,10 +91,51 @@ test03()
   static_assert( std::ranges::empty(R2{}) );
 }
 
+void
+test04()
+{
+  struct E1
+  {
+    bool empty() const noexcept { return {}; }
+  };
+
+  static_assert( noexcept(std::ranges::empty(E1{})) );
+
+  struct E2
+  {
+    bool empty() const noexcept(false) { return {}; }
+  };
+
+  static_assert( ! noexcept(std::ranges::empty(E2{})) );
+
+  struct E3
+  {
+    struct B
+    {
+      explicit operator bool() const noexcept(false) { return true; }
+    };
+
+    B empty() const noexcept { return {}; }
+  };
+
+  static_assert( ! noexcept(std::ranges::empty(E3{})) );
+}
+
+template<typename T>
+  concept has_empty = requires (T& t) { std::ranges::empty(t); };
+
+// If T is an array of unknown bound, ranges::empty(E) is ill-formed.
+static_assert( ! has_empty<int[]> );
+static_assert( ! has_empty<int(&)[]> );
+static_assert( ! has_empty<int[][2]> );
+struct Incomplete;
+static_assert( ! has_empty<Incomplete[]> );
+
 int
 main()
 {
   test01();
   test02();
   test03();
+  test04();
 }

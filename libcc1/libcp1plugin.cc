@@ -1,5 +1,5 @@
 /* Library interface to C++ front end.
-   Copyright (C) 2014-2021 Free Software Foundation, Inc.
+   Copyright (C) 2014-2022 Free Software Foundation, Inc.
 
    This file is part of GCC.  As it interacts with GDB through libcc1,
    they all become a single program as regards the GNU GPL's requirements.
@@ -32,6 +32,7 @@
 #undef PACKAGE_TARNAME
 #undef PACKAGE_VERSION
 
+#define INCLUDE_MEMORY
 #include "gcc-plugin.h"
 #include "system.h"
 #include "coretypes.h"
@@ -541,7 +542,7 @@ record_decl_address (plugin_context *ctx, decl_addr_value value)
   **slot = value;
   /* We don't want GCC to warn about e.g. static functions
      without a code definition.  */
-  TREE_NO_WARNING (value.decl) = 1;
+  suppress_warning (value.decl);
   return *slot;
 }
 
@@ -1654,7 +1655,8 @@ plugin_start_closure_class_type (cc1_plugin::connection *self,
 
   /* Instead of calling record_lambda_scope, do this:  */
   LAMBDA_EXPR_EXTRA_SCOPE (lambda_expr) = extra_scope;
-  LAMBDA_EXPR_DISCRIMINATOR (lambda_expr) = discriminator;
+  LAMBDA_EXPR_SCOPE_ONLY_DISCRIMINATOR (lambda_expr) = discriminator;
+  LAMBDA_EXPR_SCOPE_SIG_DISCRIMINATOR (lambda_expr) = discriminator;
 
   tree decl = TYPE_NAME (type);
   determine_visibility (decl);
@@ -2669,7 +2671,7 @@ plugin_build_unary_expr (cc1_plugin::connection *self,
       break;
 
     default:
-      result = build_x_unary_op (/*loc=*/0, opcode, op0, tf_error);
+      result = build_x_unary_op (/*loc=*/0, opcode, op0, NULL_TREE, tf_error);
       break;
     }
 
@@ -2794,7 +2796,7 @@ plugin_build_binary_expr (cc1_plugin::connection *self,
 
     default:
       result = build_x_binary_op (/*loc=*/0, opcode, op0, ERROR_MARK,
-				  op1, ERROR_MARK, NULL, tf_error);
+				  op1, ERROR_MARK, NULL_TREE, NULL, tf_error);
       break;
     }
 

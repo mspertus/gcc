@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---          Copyright (C) 1992-2021, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2022, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -68,17 +68,21 @@ package Opt is
    --  the default values.
 
    Latest_Ada_Only : Boolean := False;
-   --  If True, the only value valid for Ada_Version is Ada_Version_Type'Last,
-   --  trying to specify other values will be ignored (in case of pragma
+   --  If True, the only value valid for Ada_Version is Ada_2012 or later.
+   --  Trying to specify other values will be ignored (in case of pragma
    --  Ada_xxx) or generate an error (in case of -gnat83/95/xx switches).
 
-   type Ada_Version_Type is (Ada_83, Ada_95, Ada_2005, Ada_2012, Ada_2020);
+   type Ada_Version_Type is
+     (Ada_83, Ada_95, Ada_2005, Ada_2012, Ada_2022,
+      Ada_With_Core_Extensions, Ada_With_All_Extensions);
    pragma Ordered (Ada_Version_Type);
    pragma Convention (C, Ada_Version_Type);
    --  Versions of Ada for Ada_Version below. Note that these are ordered,
    --  so that tests like Ada_Version >= Ada_95 are legitimate and useful.
    --  Think twice before using "="; Ada_Version >= Ada_2012 is more likely
    --  what you want, because it will apply to future versions of the language.
+   --  Note that Ada_With_All_Extensions should always be last since it should
+   --  always be a superset of the other Ada versions.
 
    --  WARNING: There is a matching C declaration of this type in fe.h
 
@@ -108,7 +112,7 @@ package Opt is
    --  remains set to Ada_Version_Default). This is used in the rare cases
    --  (notably pragma Obsolescent) where we want the explicit version set.
 
-   Ada_Version_Runtime : Ada_Version_Type := Ada_2020;
+   Ada_Version_Runtime : Ada_Version_Type := Ada_With_All_Extensions;
    --  GNAT
    --  Ada version used to compile the runtime. Used to set Ada_Version (but
    --  not Ada_Version_Explicit) when compiling predefined or internal units.
@@ -183,10 +187,9 @@ package Opt is
    Assume_No_Invalid_Values : Boolean := False;
    --  GNAT Normally, in accordance with (RM 13.9.1 (9-11)) the front end
    --  assumes that values could have invalid representations, unless it can
-   --  clearly prove that the values are valid. If this switch is set (by
+   --  prove that the values are valid. If this switch is set (by -gnatB or
    --  pragma Assume_No_Invalid_Values (On)), then the compiler assumes values
-   --  are valid and in range of their representations. This feature is now
-   --  fully enabled in the compiler.
+   --  are valid and in range of their representations.
 
    Back_Annotate_Rep_Info : Boolean := False;
    --  GNAT
@@ -197,7 +200,7 @@ package Opt is
    --  values.
 
    Back_End_Handles_Limited_Types : Boolean;
-   --  This flag is set true if the back end can properly handle limited or
+   --  This flag is set True if the back end can properly handle limited or
    --  other by reference types, and avoid copies. If this flag is False, then
    --  the front end does special expansion for if/case expressions to make
    --  sure that no copy occurs. If the flag is True, then the expansion for
@@ -209,11 +212,19 @@ package Opt is
    Back_End_Inlining : Boolean := False;
    --  GNAT
    --  Set True to activate inlining by back-end expansion. This is the normal
-   --  default mode for gcc targets, so it is True on such targets unless the
+   --  default mode for GCC targets, so it is True on such targets unless the
    --  switches -gnatN or -gnatd.z are used. See circuitry in gnat1drv for the
    --  exact conditions for setting this switch.
 
    --  WARNING: There is a matching C declaration of this variable in fe.h
+
+   Back_End_Return_Slot : Boolean := True;
+   --  GNAT
+   --  This flag is set True if the return slot of the back end for functions
+   --  returning a by-reference type can be accessed by means of an intrinsic
+   --  function callable in the body of these functions. This is the normal
+   --  default mode for GCC targets, so it is True on such targets unless the
+   --  switch -gnatd_r is used.
 
    Bind_Alternate_Main_Name : Boolean := False;
    --  GNATBIND
@@ -249,10 +260,17 @@ package Opt is
    --  Set to True to build, bind and link all the sources of a project file
    --  (switch -B)
 
+   CCG_Mode : Boolean := False;
+   --  Set to True when running as CCG (either via -gnatceg or via -emit-c)
+
    Check_Aliasing_Of_Parameters : Boolean := False;
    --  GNAT
    --  Set to True to detect whether subprogram parameters and function results
    --  alias the same object(s).
+
+   Check_Elaboration_Flags : Boolean := True;
+   --  GNATBIND
+   --  Set to False if switch -k is set.
 
    Check_Float_Overflow : Boolean := False;
    --  GNAT
@@ -347,15 +365,6 @@ package Opt is
    --    set True to delete only the files produced by the compiler but not the
    --    library files or the executable files.
 
-   Compiler_Unit : Boolean := False;
-   --  GNAT1
-   --  Set True by an occurrence of pragma Compiler_Unit_Warning (or of the
-   --  obsolete pragma Compiler_Unit) in the main unit. Once set True, stays
-   --  True, since any units that are with'ed directly or indirectly by
-   --  a Compiler_Unit_Warning main unit are subject to the same restrictions.
-   --  Such units really should have their own pragmas, but we do not bother to
-   --  check for that, so this transitivity provides extra checking.
-
    Config_File : Boolean := True;
    --  GNAT
    --  Set to False to inhibit reading and processing of gnat.adc file
@@ -385,6 +394,10 @@ package Opt is
    --  GNATMAKE
    --  Set to True (-C switch) to indicate that the compiler will be invoked
    --  with a mapping file (-gnatem compiler switch).
+
+   CUDA_Device_Library_Name : String_Ptr := null;
+   --  GNATBIND
+   --  Non-null only if Enable_CUDA_Expansion is True.
 
    subtype Debug_Level_Value is Nat range 0 .. 3;
    Debugger_Level : Debug_Level_Value := 0;
@@ -531,6 +544,17 @@ package Opt is
 
    --  WARNING: There is a matching C declaration of this variable in fe.h
 
+   Enable_CUDA_Expansion : Boolean := False;
+   --  GNAT, GNATBIND
+   --  Set to True to enable CUDA host expansion:
+   --    - Removal of CUDA_Global and CUDA_Device symbols
+   --    - Generation of kernel registration code in packages
+   --    - Binder invokes device elaboration/finalization code
+
+   Enable_CUDA_Device_Expansion : Boolean := False;
+   --  GNATBIND
+   --  Set to True to enable CUDA device (as opposed to host) expansion.
+
    Error_Msg_Line_Length : Nat := 0;
    --  GNAT
    --  Records the error message line length limit. If this is set to zero,
@@ -571,13 +595,7 @@ package Opt is
    type Exception_Mechanism_Type is
    --  Determines the kind of mechanism used to handle exceptions
    --
-     (Front_End_SJLJ,
-      --  Exceptions use setjmp/longjmp generated explicitly by the front end
-      --  (this includes gigi or other equivalent parts of the code generator).
-      --  AT END handlers are converted into exception handlers by the front
-      --  end in this mode.
-
-      Back_End_ZCX,
+     (Back_End_ZCX,
       --  Exceptions are handled by the back end. The front end simply
       --  generates the handlers as they appear in the source, and AT END
       --  handlers are left untouched (they are not converted into exception
@@ -589,20 +607,12 @@ package Opt is
       --  Similar to Back_End_ZCX with respect to the front-end processing
       --  of regular and AT-END handlers. A setjmp/longjmp scheme is used to
       --  propagate and setup handler contexts on regular execution paths.
-   pragma Convention (C, Exception_Mechanism_Type);
 
-   --  WARNING: There is a matching C declaration of this type in fe.h
-
-   Exception_Mechanism : Exception_Mechanism_Type := Front_End_SJLJ;
+   Exception_Mechanism : Exception_Mechanism_Type := Back_End_SJLJ;
    --  GNAT
    --  Set to the appropriate value depending on the flags in system.ads
-   --  (Frontend_Exceptions + ZCX_By_Default). The C convention is there to
-   --  allow access by gigi.
+   --  (ZCX_By_Default).
 
-   --  WARNING: There is a matching C declaration of this variable in fe.h
-
-   function Back_End_Exceptions return Boolean;
-   function Front_End_Exceptions return Boolean;
    function ZCX_Exceptions return Boolean;
    function SJLJ_Exceptions return Boolean;
    --  GNAT
@@ -623,10 +633,15 @@ package Opt is
    --  Set to True to convert nonbinary modular additions into code
    --  that relies on the front-end expansion of operator Mod.
 
-   Extensions_Allowed : Boolean := False;
-   --  GNAT
-   --  Set to True by switch -gnatX if GNAT specific language extensions
-   --  are allowed. See GNAT RM for details.
+   function All_Extensions_Allowed return Boolean is
+     (Ada_Version = Ada_With_All_Extensions);
+   --  True if GNAT specific language extensions are allowed. See GNAT RM for
+   --  details.
+
+   function Core_Extensions_Allowed return Boolean is
+     (Ada_Version >= Ada_With_Core_Extensions);
+   --  True if some but not all GNAT specific language extensions are allowed.
+   --  See GNAT RM for details.
 
    type External_Casing_Type is (
      As_Is,       -- External names cased as they appear in the Ada source
@@ -912,6 +927,11 @@ package Opt is
    --  directory if these files already exist or in the source directory
    --  if not.
 
+   JSON_Output : Boolean := False;
+   --  GNAT
+   --  Output error and warning messages in JSON format. Set to true when the
+   --  backend option "-fdiagnostics-format=json" is found on the command line.
+
    Keep_Going : Boolean := False;
    --  GNATMAKE, GPRBUILD
    --  When True signals to ignore compilation errors and keep processing
@@ -1020,22 +1040,6 @@ package Opt is
    XDR_Stream : Boolean := False;
    --  GNATBIND
    --  Set to True to enable XDR in s-stratt.adb. Set by -xdr.
-
-   type Create_Repinfo_File_Proc is access procedure (Src  : String);
-   type Write_Repinfo_Line_Proc  is access procedure (Info : String);
-   type Close_Repinfo_File_Proc  is access procedure;
-   --  Types used for procedure addresses below
-
-   Create_Repinfo_File_Access : Create_Repinfo_File_Proc := null;
-   Write_Repinfo_Line_Access  : Write_Repinfo_Line_Proc  := null;
-   Close_Repinfo_File_Access  : Close_Repinfo_File_Proc  := null;
-   --  GNAT
-   --  These three locations are left null when operating in non-compiler (e.g.
-   --  ASIS mode), but when operating in compiler mode, they are set to point
-   --  to the three corresponding procedures in Osint-C. The reason for this
-   --  slightly strange interface is to stop Repinfo from dragging in Osint in
-   --  ASIS mode, which would include lots of unwanted units in the ASIS build.
-   --  ??? Revisit this now that ASIS mode is gone.
 
    type Create_List_File_Proc is access procedure (S : String);
    type Write_List_Info_Proc  is access procedure (S : String);
@@ -1643,7 +1647,8 @@ package Opt is
    Unique_Error_Tag : Boolean := Tag_Errors;
    --  GNAT
    --  Indicates if error messages are to be prefixed by the string error:
-   --  Initialized from Tag_Errors, can be forced on with the -gnatU switch.
+   --  Initialized from Tag_Errors, can be forced on with the -gnatU switch and
+   --  disabled with -gnatd_U.
 
    Unnest_Subprogram_Mode : Boolean := False;
    --  If true, activates the circuitry for unnesting subprograms (see the spec
@@ -1726,11 +1731,11 @@ package Opt is
    --  including warnings on Ada 2012 obsolescent features used in Ada 2012
    --  mode. Modified by use of -gnatwy/Y.
 
-   Warn_On_Ada_202X_Compatibility : Boolean := True;
+   Warn_On_Ada_2022_Compatibility : Boolean := True;
    --  GNAT
-   --  Set to True to generate all warnings on Ada 202X compatibility issues,
-   --  including warnings on Ada 202X obsolescent features used in Ada 202X
-   --  mode. ???There is no warning switch for this yet.
+   --  Set to True to generate all warnings on Ada 2022 compatibility issues,
+   --  including warnings on Ada 2022 obsolescent features used in Ada 2022
+   --  mode.
 
    Warn_On_All_Unread_Out_Parameters : Boolean := False;
    --  GNAT
@@ -2040,14 +2045,6 @@ package Opt is
    --  GNAT
    --  Set True by use of the configuration pragma Suppress_Exception_Messages
 
-   Extensions_Allowed_Config : Boolean;
-   --  GNAT
-   --  This is the flag that indicates whether extensions are allowed. It can
-   --  be set True either by use of the -gnatX switch, or by use of the
-   --  configuration pragma Extensions_Allowed (On). It is always set to True
-   --  for internal GNAT units, since extensions are always permitted in such
-   --  units.
-
    External_Name_Exp_Casing_Config : External_Casing_Type;
    --  GNAT
    --  This is the value of the configuration switch that controls casing of
@@ -2331,7 +2328,6 @@ private
       Default_SSO                    : Character;
       Dynamic_Elaboration_Checks     : Boolean;
       Exception_Locations_Suppressed : Boolean;
-      Extensions_Allowed             : Boolean;
       External_Name_Exp_Casing       : External_Casing_Type;
       External_Name_Imp_Casing       : External_Casing_Type;
       Fast_Math                      : Boolean;

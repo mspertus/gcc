@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---          Copyright (C) 1999-2021, Free Software Foundation, Inc.         --
+--          Copyright (C) 1999-2022, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -38,6 +38,15 @@ package Warnsw is
    --  here as time goes by. And in fact a really nice idea would be to put
    --  them all in a Warn_Record so that they would be easy to save/restore.
 
+   Warning_Doc_Switch : Boolean := True;
+   --  If this is set True, then the ??/?*?/?$?/?x?/?.x?/?_x? insertion
+   --  sequences in error messages generate appropriate tags for the output
+   --  error messages. If this switch is False, then these sequences are still
+   --  recognized (for the purposes of implementing the pattern matching in
+   --  pragmas Warnings (Off,..) and Warning_As_Error(...) but do not result
+   --  in adding the error message tag. The -gnatw.d switch sets this flag
+   --  True, -gnatw.D sets this flag False.
+
    Warn_On_Anonymous_Allocators : Boolean := False;
    --  Warn when allocators for anonymous access types are present, which,
    --  although not illegal in Ada, may be confusing to users due to how
@@ -50,7 +59,8 @@ package Warnsw is
 
    Warn_On_Unknown_Compile_Time_Warning : Boolean := True;
    --  Warn on a pragma Compile_Time_Warning whose condition has a value that
-   --  is not known at compile time.
+   --  is not known at compile time. On by default, modified by use
+   --  of -gnatw_c/_C and set as part of -gnatwa.
 
    Warn_On_Overridden_Size : Boolean := False;
    --  Warn when explicit record component clause or array component_size
@@ -58,16 +68,31 @@ package Warnsw is
    --  set with an explicit size clause. Off by default, modified by use of
    --  -gnatw.s/.S (but not -gnatwa).
 
+   Warn_On_Pedantic_Checks : Boolean := False;
+   --  Warn for violation of miscellaneous pedantic rules (such as when the
+   --  subtype of a formal parameter given in a subprogram body's specification
+   --  comes from a different subtype declaration that the subtype of the
+   --  formal in the subprogram declaration). Off by default, and set by
+   --  -gnatw_p (but not -gnatwa).
+
    Warn_On_Questionable_Layout : Boolean := False;
    --  Warn when default layout of a record type is questionable for run-time
    --  efficiency reasons and would be improved by reordering the components.
    --  Off by default, modified by use of -gnatw.q/.Q (but not -gnatwa).
 
-   --  WARNING: There is a matching C declaration of this variable in fe.h
+   function Get_Warn_On_Questionable_Layout return Boolean is
+     (Warn_On_Questionable_Layout);
+   --  WARNING: There is a matching C declaration of this function in fe.h
 
    Warn_On_Record_Holes : Boolean := False;
    --  Warn when explicit record component clauses leave uncovered holes (gaps)
    --  in a record layout. Off by default, set by -gnatw.h (but not -gnatwa).
+
+   Warn_On_Ignored_Equality : Boolean := False;
+   --  Warn when a user-defined "=" function does not compose (i.e. is ignored
+   --  for a predefined "=" for a composite type containing a component of
+   --  whose type has the user-defined "=" as primitive). Off by default, and
+   --  set by -gnatw_q (but not -gnatwa).
 
    Warn_On_Component_Order : Boolean := False;
    --  Warn when record component clauses are out of order with respect to the
@@ -128,9 +153,11 @@ package Warnsw is
       Warn_On_Overlap                      : Boolean;
       Warn_On_Overridden_Size              : Boolean;
       Warn_On_Parameter_Order              : Boolean;
+      Warn_On_Pedantic_Checks              : Boolean;
       Warn_On_Questionable_Layout          : Boolean;
       Warn_On_Questionable_Missing_Parens  : Boolean;
       Warn_On_Record_Holes                 : Boolean;
+      Warn_On_Ignored_Equality             : Boolean;
       Warn_On_Component_Order              : Boolean;
       Warn_On_Redundant_Constructs         : Boolean;
       Warn_On_Reverse_Bit_Order            : Boolean;
@@ -147,7 +174,7 @@ package Warnsw is
    end record;
 
    function Save_Warnings return Warning_Record;
-   --  Returns current settingh of warnings
+   --  Returns current settings of warnings
 
    procedure Restore_Warnings (W : Warning_Record);
    --  Restores current settings of warning flags from W

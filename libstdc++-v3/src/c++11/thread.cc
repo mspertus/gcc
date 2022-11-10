@@ -1,6 +1,6 @@
 // thread -*- C++ -*-
 
-// Copyright (C) 2008-2021 Free Software Foundation, Inc.
+// Copyright (C) 2008-2022 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -24,6 +24,7 @@
 
 
 #define _GLIBCXX_THREAD_ABI_COMPAT 1
+#define _GLIBCXX_THREAD_IMPL 1
 #include <memory> // include this first so <thread> can use shared_ptr
 #include <thread>
 #include <system_error>
@@ -67,6 +68,15 @@ static inline int get_nprocs()
 #elif defined(_GLIBCXX_USE_SC_NPROC_ONLN)
 # include <unistd.h>
 # define _GLIBCXX_NPROCS sysconf(_SC_NPROC_ONLN)
+#elif defined(_WIN32)
+# include <windows.h>
+static inline int get_nprocs()
+{
+  SYSTEM_INFO sysinfo;
+  GetSystemInfo(&sysinfo);
+  return (int) sysinfo.dwNumberOfProcessors;
+}
+# define _GLIBCXX_NPROCS get_nprocs()
 #else
 # define _GLIBCXX_NPROCS 0
 #endif
