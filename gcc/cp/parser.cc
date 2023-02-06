@@ -48955,12 +48955,23 @@ synthesize_implicit_template_parm  (cp_parser *parser, tree constr)
      parameter chain with implicit_template_parms.  */
 
   tree proto = constr ? DECL_INITIAL (constr) : NULL_TREE;
-  tree synth_id = make_generic_type_name ();
+  tree id;
+  if (cp_lexer_next_token_is (parser->lexer, CPP_COLON)) {
+    cp_lexer_consume_token (parser->lexer);
+    if (cp_lexer_next_token_is (parser->lexer, CPP_NAME)) {
+	    id = cp_parser_identifier (parser);
+    } else {
+      error ("Identifier expected here");
+      return error_mark_node;
+    }
+  } else {
+    id = make_generic_type_name ();
+  }
   bool non_type = false;
 
   /* Synthesize the type template parameter.  */
   gcc_assert(!proto || TREE_CODE (proto) == TYPE_DECL);
-  tree synth_tmpl_parm = finish_template_type_parm (class_type_node, synth_id);
+  tree synth_tmpl_parm = finish_template_type_parm (class_type_node, id);
 
   if (become_template)
     current_template_parms = tree_cons (size_int (current_template_depth + 1),
