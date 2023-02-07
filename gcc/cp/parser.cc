@@ -48956,8 +48956,10 @@ synthesize_implicit_template_parm  (cp_parser *parser, tree constr)
 
   tree proto = constr ? DECL_INITIAL (constr) : NULL_TREE;
   tree id;
-  if (cp_lexer_next_token_is (parser->lexer, CPP_COLON)) {
-    cp_lexer_consume_token (parser->lexer);
+  cp_token *start_token = cp_lexer_peek_token (parser->lexer);
+  cp_lexer_consume_token (parser->lexer); // Consume auto
+  if (cp_lexer_peek_token(parser->lexer)->type == CPP_COLON) {
+    cp_lexer_consume_token (parser->lexer); // Consume colon
     if (cp_lexer_next_token_is (parser->lexer, CPP_NAME)) {
 	    id = cp_parser_identifier (parser);
     } else {
@@ -48973,6 +48975,19 @@ synthesize_implicit_template_parm  (cp_parser *parser, tree constr)
   gcc_assert(!proto || TREE_CODE (proto) == TYPE_DECL);
   tree synth_tmpl_parm = finish_template_type_parm (class_type_node, id);
 
+  start_token->type = CPP_CONCEPTS_INLINE;
+  start_token->u.tree_check_value = ggc_cleared_alloc<struct tree_check> ();
+  start_token->tree_check_p = true;
+  start_token->u.tree_check_value->value = synth_tmpl_parm;
+  start_token->u.tree_check_value->checks = get_deferred_access_checks ();
+  start_token->keyword = RID_MAX;
+
+  location_t loc = start_token->location;
+  loc = make_location (loc, loc, parser->lexer);
+  start_token->location = loc;
+
+  cp_lexer_purge_tokens_after (parser->lexer, start_token);
+  cp_lexer_set_token_position (parser->lexer, start_token);
   if (become_template)
     current_template_parms = tree_cons (size_int (current_template_depth + 1),
 					NULL_TREE, current_template_parms);

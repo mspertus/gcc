@@ -425,6 +425,8 @@ extern machine_mode c_default_pointer_mode;
 /* A token type for pre-parsed primary-expression (lambda- or statement-).  */
 #define CPP_PREPARSED_EXPR ((enum cpp_ttype) (CPP_DECLTYPE + 1))
 
+/* A token type for concepts in-line syntax */
+#define CPP_CONCEPTS_INLINE ((enum cpp_ttype) (CPP_PREPARSED_EXPR + 1))
 /* The number of token types, including C++-specific ones.  */
 #define N_CP_TTYPES ((int) (CPP_PREPARSED_EXPR + 1))
 
