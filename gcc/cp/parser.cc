@@ -48961,7 +48961,7 @@ synthesize_implicit_template_parm  (cp_parser *parser, tree constr)
   if (cp_lexer_peek_token(parser->lexer)->type == CPP_COLON) {
     cp_lexer_consume_token (parser->lexer); // Consume colon
     if (cp_lexer_next_token_is (parser->lexer, CPP_NAME)) {
-	    id = cp_parser_identifier (parser);
+      id = cp_parser_identifier (parser);
     } else {
       error ("Identifier expected here");
       return error_mark_node;
